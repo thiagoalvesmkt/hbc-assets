@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Aprovação de Criativos — Hospitalar BC</title>
+<style>
+:root{
+  --navy:#16245c; --navy2:#1f3a86; --ink:#0e1730; --mut:#5b6680;
+  --bg:#eef1f7; --card:#ffffff; --line:#e3e8f2;
+  --green:#15a05a; --amber:#e08b15; --red:#d6453f;
+  --shadow:0 10px 34px rgba(20,36,92,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+/* HEADER */
+header{background:linear-gradient(160deg,#16245c,#23347e);color:#fff;padding:30px 22px 26px;}
+.head-in{max-width:1180px;margin:0 auto;}
+.brandline{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em;font-size:18px;}
+.brandline .heart{width:30px;height:30px;flex:0 0 30px;}
+h1{font-size:clamp(24px,4vw,34px);font-weight:800;margin-top:16px;letter-spacing:-.5px;}
+.sub{color:#c5d0ee;margin-top:8px;font-size:15px;max-width:760px;line-height:1.5;}
+.who{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.who input{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:10px;padding:11px 14px;font-size:14px;min-width:230px;}
+.who input::placeholder{color:#aebbe2;}
+/* PROGRESS */
+.progress{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+.progress-in{max-width:1180px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.bar{flex:1;min-width:160px;height:9px;background:#dfe5f1;border-radius:99px;overflow:hidden;}
+.bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#15a05a,#1bbf6c);transition:width .35s;}
+.pcount{font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;}
+.tags{display:flex;gap:10px;font-size:12.5px;color:var(--mut);}
+.tags b{font-weight:700;}
+/* GRID */
+.wrap{max-width:1180px;margin:0 auto;padding:26px 22px 130px;}
+.intro{background:#fff7e6;border:1px solid #f0dcae;border-radius:14px;padding:16px 18px;font-size:14px;color:#6b541d;margin-bottom:22px;line-height:1.55;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:border-color .2s;}
+.card.ok{border-color:#9fe0bd;}.card.adj{border-color:#f3cf92;}.card.no{border-color:#f0b4b1;}
+.cat{position:absolute;top:12px;left:12px;background:rgba(22,36,92,.92);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 11px;border-radius:99px;}
+.imgwrap{position:relative;background:#f4f6fb;cursor:zoom-in;}
+.imgwrap img{width:100%;display:block;aspect-ratio:4/5;object-fit:contain;}
+.statebadge{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;padding:6px 11px;border-radius:99px;display:none;}
+.card.ok .statebadge{display:block;background:#e3f6ec;color:#0e7a42;}
+.card.adj .statebadge{display:block;background:#fdf0d9;color:#9a6206;}
+.card.no .statebadge{display:block;background:#fbe4e3;color:#a32c27;}
+.body{padding:16px 17px 18px;display:flex;flex-direction:column;gap:13px;flex:1;}
+.hl{font-size:18px;font-weight:800;color:var(--navy);line-height:1.2;}
+.copy{font-size:13.5px;line-height:1.55;color:#33405e;white-space:pre-wrap;}
+.field{font-size:12.5px;}
+.field .lab{font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;font-size:11px;margin-bottom:4px;}
+.wpp{background:#eafaf0;border:1px solid #bfe8cf;border-radius:10px;padding:9px 12px;font-size:13px;color:#0e7a42;}
+.wpp b{color:#0a5e33;}
+.checks{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.checks li{font-size:12.5px;color:#7a5b14;background:#fdf6e6;border:1px solid #f1e2bd;border-radius:9px;padding:8px 10px;line-height:1.4;}
+.checks li.good{color:#0e7a42;background:#eef9f1;border-color:#cde9d6;}
+.actions{display:flex;gap:8px;margin-top:2px;}
+.btn{flex:1;border:1.5px solid var(--line);background:#fff;color:#42506e;font-weight:700;font-size:13px;padding:11px 8px;border-radius:11px;cursor:pointer;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn:hover{border-color:#c3ccde;}
+.btn.a.sel{background:var(--green);border-color:var(--green);color:#fff;}
+.btn.j.sel{background:var(--amber);border-color:var(--amber);color:#fff;}
+.btn.r.sel{background:var(--red);border-color:var(--red);color:#fff;}
+.note{display:none;}
+.note.show{display:block;}
+.note textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;font-family:inherit;resize:vertical;min-height:62px;}
+/* FOOTER BAR */
+.footbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(20,36,92,.08);z-index:40;}
+.footbar-in{max-width:1180px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.foot-txt{font-size:13.5px;color:var(--mut);}
+.foot-txt b{color:var(--navy);}
+.cta{background:var(--navy);color:#fff;font-weight:800;font-size:15px;border:none;padding:14px 24px;border-radius:12px;cursor:pointer;}
+.cta:disabled{opacity:.45;cursor:not-allowed;}
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(10,18,40,.72);display:none;align-items:center;justify-content:center;z-index:60;padding:20px;}
+.overlay.show{display:flex;}
+.lightbox img{max-width:92vw;max-height:90vh;border-radius:10px;}
+.sheet{background:#fff;border-radius:18px;max-width:680px;width:100%;max-height:88vh;overflow:auto;}
+.sheet-h{padding:22px 24px;border-bottom:1px solid var(--line);}
+.sheet-h h2{font-size:21px;color:var(--navy);}
+.sheet-h p{font-size:13.5px;color:var(--mut);margin-top:4px;}
+.sheet-b{padding:20px 24px;}
+.resumo{background:#f6f8fc;border:1px solid var(--line);border-radius:12px;padding:16px;font-size:13px;line-height:1.5;white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;color:#26334f;max-height:300px;overflow:auto;}
+.sheet-f{padding:16px 24px 22px;display:flex;gap:10px;flex-wrap:wrap;}
+.sheet-f button{flex:1;min-width:150px;border:none;border-radius:12px;padding:14px;font-weight:800;font-size:14px;cursor:pointer;}
+.b-wpp{background:#25D366;color:#06351c;}
+.b-copy{background:var(--navy);color:#fff;}
+.b-close{background:#eef1f7;color:#42506e;}
+.mini{font-size:12px;color:var(--mut);text-align:center;padding:0 24px 18px;}
+@media(max-width:560px){.actions{flex-direction:column;}.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<header>
+  <div class="head-in">
+    <div class="brandline">
+      <svg class="heart" viewBox="0 0 48 48"><path d="M24 43S5 30.5 5 17.5C5 10.6 10.6 5 17.5 5c4 0 6.5 2.3 6.5 2.3S26.5 5 30.5 5C37.4 5 43 10.6 43 17.5 43 30.5 24 43 24 43z" fill="#7cc3ec"/><path d="M33 9h4M35 7v4" stroke="#e5352b" stroke-width="2.6" stroke-linecap="round"/></svg>
+      Hospitalar BC
+    </div>
+    <h1>Aprovação de Criativos — Campanhas Meta Ads</h1>
+    <p class="sub">Revise cada anúncio (arte + texto + mensagem do WhatsApp). Marque <b>Aprovar</b>, <b>Ajustar</b> (com o que mudar) ou <b>Reprovar</b>. No fim, gere o resumo e nos envie. Nada vai ao ar sem a sua aprovação.</p>
+    <div class="who">
+      <input id="quem" type="text" placeholder="Seu nome (quem está aprovando)">
+    </div>
+  </div>
+</header>
+
+<div class="progress">
+  <div class="progress-in">
+    <span class="pcount" id="pcount">0 de 0 avaliados</span>
+    <div class="bar"><i id="barfill"></i></div>
+    <div class="tags"><span>✅ <b id="t-ok">0</b></span><span>✏️ <b id="t-adj">0</b></span><span>❌ <b id="t-no">0</b></span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">⚠️ <b>Confira com atenção:</b> ofertas (ex.: “10x sem juros”, “15% à vista”), se o <b>produto da imagem é o real do estoque</b>, e <b>afirmações de saúde</b> (ex.: trombose). Algumas imagens são <b>ilustrativas (geradas)</b> e estão marcadas — confirme o modelo real.</div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="footbar">
+  <div class="footbar-in">
+    <div class="foot-txt"><b id="fcount">0</b> de <b id="ftotal">0</b> avaliados · suas escolhas ficam salvas neste aparelho</div>
+    <button class="cta" id="finish" disabled>Finalizar e gerar resumo</button>
+  </div>
+</div>
+
+<div class="overlay lightbox" id="lightbox"><img id="lbimg" src="" alt=""></div>
+
+<div class="overlay" id="modal">
+  <div class="sheet">
+    <div class="sheet-h"><h2>Resumo da aprovação</h2><p>Confira e envie pra gente. Você pode mandar pelo WhatsApp ou copiar o texto.</p></div>
+    <div class="sheet-b"><div class="resumo" id="resumo"></div></div>
+    <div class="sheet-f">
+      <button class="b-wpp" id="sendwpp">📲 Enviar no WhatsApp</button>
+      <button class="b-copy" id="docopy">Copiar resumo</button>
+      <button class="b-close" id="closem">Voltar</button>
+    </div>
+    <div class="mini">Dica: se preferir, tire um print desta tela e nos envie.</div>
+  </div>
+</div>
+
+<script>
+const CRIATIVOS = [
+  {id:"conforto-pe", cat:"Tênis · Conforto", img:"conforto-1-em-pe.png",
+   hl:"Conforto pra quem fica o dia todo em pé",
+   copy:"Tem gente que escolhe tênis pelo visual. E tem gente que passa 8, 10, 12 horas em pé e precisa de conforto de verdade. 👣\n\nOs tênis de conforto da Hospitalar BC têm amortecimento de verdade, estabilidade e conforto desde o primeiro uso.\n\n💳 Até 10x sem juros · 💰 15% à vista\n📍 Centro, Balneário Camboriú.",
+   wpp:"Olá! Vi o anúncio e quero informações sobre os tênis de conforto.",
+   checks:[{t:"Oferta: “10x sem juros” e “15% à vista” — confirmar se está valendo"},{t:"Imagem do tênis é ILUSTRATIVA (gerada) — confirmar modelo real do estoque"}]},
+  {id:"conforto-passo", cat:"Tênis · Conforto", img:"conforto-3-tenis-real.png",
+   hl:"Cada passo vira descanso",
+   copy:"Depois de um dia inteiro em pé, o seu corpo sente. Com os tênis de conforto da Hospitalar BC, cada passo vira descanso. 👣\n\n💳 Até 10x sem juros.\n📍 Centro, Balneário Camboriú.",
+   wpp:"Olá! Vi o anúncio e quero informações sobre os tênis de conforto.",
+   checks:[{t:"Imagem com o tênis REAL do estoque",good:true},{t:"Oferta: “10x sem juros” — confirmar"}]},
+  {id:"meia-pernas", cat:"Meia de compressão", img:"criativo-4-meia-pernas.png",
+   hl:"Pernas cansadas e inchadas no fim do dia?",
+   copy:"Suas pernas incham, pesam e doem no fim do dia? 👣\n\nA meia de compressão graduada certa melhora a circulação e alivia já no primeiro uso. Na Hospitalar BC a gente indica o nível ideal pra você. 💙",
+   wpp:"Olá! Vi o anúncio e quero informações sobre as meias de compressão.",
+   checks:[{t:"Fala em “melhora a circulação / alívio” — validar como descrição"},{t:"Imagem ilustrativa (gerada)"}]},
+  {id:"meia-viagem", cat:"Meia de compressão", img:"criativo-5-meia-viagem.png",
+   hl:"Mais de 4 horas sentado numa viagem?",
+   copy:"Vai viajar de avião? ✈️\n\nMais de 4 horas sentado aumenta o risco de inchaço e até trombose. A meia de compressão mantém a circulação ativa durante o trajeto. Garanta a sua antes de viajar. 💙",
+   wpp:"Olá! Vi o anúncio e quero informações sobre as meias de compressão para viagem.",
+   checks:[{t:"Menciona “risco de trombose” — afirmação de saúde, confirmar se pode usar"},{t:"Imagem ilustrativa (gerada)"}]},
+  {id:"meia-igual", cat:"Meia de compressão", img:"meia-dz-2-solucao.png",
+   hl:"Meia de compressão não é tudo igual",
+   copy:"A meia de compressão não é tudo igual. A de farmácia aperta no lugar errado; a graduada certa comprime na medida — e é por isso que funciona. 💙\n\nNa Hospitalar BC a gente mede e indica o nível ideal pra você.",
+   wpp:"Olá! Vi o anúncio e quero informações sobre as meias de compressão.",
+   checks:[{t:"Compara com “meia de farmácia” — validar o tom"}]},
+  {id:"meia-loja", cat:"Meia de compressão", img:"meia-dz-3-oferta.png",
+   hl:"Sua meia certa, medida na loja",
+   copy:"Sua meia de compressão certa, medida na loja. A gente indica o nível ideal pra você e você parcela em até 10x. 💙\n📍 Centro, Balneário Camboriú.",
+   wpp:"Olá! Vi o anúncio e quero informações sobre as meias de compressão.",
+   checks:[{t:"Oferta: “parcela em até 10x” — confirmar"}]},
+  {id:"material", cat:"Material médico (B2B)", img:"criativo-6-material-medico.png",
+   hl:"Sua clínica merece material de confiança",
+   copy:"Uma luva que rasga, uma agulha sem qualidade ou um algodão com impurezas afetam a segurança do seu paciente. ⚠️\n\nNa Hospitalar BC, clínicas e profissionais de Balneário Camboriú e região têm material de qualidade com reposição rápida. 💙",
+   wpp:"Olá! Vi o anúncio e quero um orçamento de material hospitalar para minha clínica.",
+   checks:[{t:"Imagem dos produtos é ILUSTRATIVA (gerada) — confirmar"},{t:"Fala em “segurança do paciente” — validar"}]},
+];
+const KEY="hbc-aprovacao-v1";
+let state=JSON.parse(localStorage.getItem(KEY)||"{}");
+const grid=document.getElementById('grid');
+const lab={a:"Aprovar",j:"Ajustar",r:"Reprovar"};
+
+CRIATIVOS.forEach(c=>{
+  const st=state[c.id]||{};
+  const el=document.createElement('div');
+  el.className='card'+(st.v?` ${st.v==='a'?'ok':st.v==='j'?'adj':'no'}`:'');
+  el.id='card-'+c.id;
+  el.innerHTML=`
+    <div class="imgwrap" onclick="zoom('${c.img}')">
+      <span class="cat">${c.cat}</span>
+      <span class="statebadge">${st.v==='a'?'✅ Aprovado':st.v==='j'?'✏️ Ajustar':st.v==='r'?'❌ Reprovado':''}</span>
+      <img src="${c.img}" loading="lazy" alt="${c.hl}">
+    </div>
+    <div class="body">
+      <div class="hl">${c.hl}</div>
+      <div class="field"><div class="lab">Texto do anúncio</div><div class="copy">${c.copy}</div></div>
+      <div class="field"><div class="lab">Ao clicar, abre o WhatsApp com</div><div class="wpp">“<b>${c.wpp}</b>”</div></div>
+      <div class="field"><div class="lab">Pontos a conferir</div>
+        <ul class="checks">${c.checks.map(k=>`<li class="${k.good?'good':''}">${k.good?'✓ ':'• '}${k.t}</li>`).join('')}</ul>
+      </div>
+      <div class="actions">
+        <button class="btn a ${st.v==='a'?'sel':''}" onclick="setv('${c.id}','a')">✅ Aprovar</button>
+        <button class="btn j ${st.v==='j'?'sel':''}" onclick="setv('${c.id}','j')">✏️ Ajustar</button>
+        <button class="btn r ${st.v==='r'?'sel':''}" onclick="setv('${c.id}','r')">❌ Reprovar</button>
+      </div>
+      <div class="note ${st.v==='j'||st.v==='r'?'show':''}" id="note-${c.id}">
+        <textarea placeholder="O que ajustar / motivo (opcional)" oninput="setnote('${c.id}',this.value)">${st.note||''}</textarea>
+      </div>
+    </div>`;
+  grid.appendChild(el);
+});
+const qel=document.getElementById('quem'); qel.value=state.__quem||''; qel.oninput=()=>{state.__quem=qel.value;save();};
+
+function setv(id,v){state[id]=state[id]||{};state[id].v=v;save();
+  const card=document.getElementById('card-'+id);
+  card.className='card '+(v==='a'?'ok':v==='j'?'adj':'no');
+  card.querySelector('.statebadge').textContent=v==='a'?'✅ Aprovado':v==='j'?'✏️ Ajustar':'❌ Reprovado';
+  card.querySelectorAll('.actions .btn').forEach(b=>b.classList.remove('sel'));
+  card.querySelector('.btn.'+v).classList.add('sel');
+  card.querySelector('#note-'+id).classList.toggle('show',v==='j'||v==='r');
+  upd();}
+function setnote(id,val){state[id]=state[id]||{};state[id].note=val;save();}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function zoom(img){document.getElementById('lbimg').src=img;document.getElementById('lightbox').classList.add('show');}
+document.getElementById('lightbox').onclick=function(){this.classList.remove('show');};
+
+function upd(){
+  let ok=0,adj=0,no=0,done=0;
+  CRIATIVOS.forEach(c=>{const v=(state[c.id]||{}).v;if(v){done++;if(v==='a')ok++;if(v==='j')adj++;if(v==='r')no++;}});
+  const tot=CRIATIVOS.length;
+  document.getElementById('pcount').textContent=`${done} de ${tot} avaliados`;
+  document.getElementById('barfill').style.width=(done/tot*100)+'%';
+  document.getElementById('t-ok').textContent=ok;document.getElementById('t-adj').textContent=adj;document.getElementById('t-no').textContent=no;
+  document.getElementById('fcount').textContent=done;document.getElementById('ftotal').textContent=tot;
+  document.getElementById('finish').disabled=done===0;
+}
+function buildResumo(){
+  const map={a:'✅ APROVADO',j:'✏️ AJUSTAR',r:'❌ REPROVADO'};
+  let out=`APROVAÇÃO DE CRIATIVOS — HOSPITALAR BC\n`;
+  out+=`Por: ${state.__quem||'(não informado)'}\n`;
+  out+=`Data: ${new Date().toLocaleDateString('pt-BR')}\n`;
+  out+=`——————————————————\n`;
+  CRIATIVOS.forEach((c,i)=>{const s=state[c.id]||{};
+    out+=`\n${i+1}. ${c.hl}\n   ${map[s.v]||'— (não avaliado)'}`;
+    if(s.note&&s.note.trim())out+=`\n   Obs: ${s.note.trim()}`;
+    out+=`\n`;});
+  const ok=CRIATIVOS.filter(c=>(state[c.id]||{}).v==='a').length;
+  out+=`——————————————————\nResumo: ${ok} aprovado(s) de ${CRIATIVOS.length}.`;
+  return out;
+}
+document.getElementById('finish').onclick=()=>{document.getElementById('resumo').textContent=buildResumo();document.getElementById('modal').classList.add('show');};
+document.getElementById('closem').onclick=()=>document.getElementById('modal').classList.remove('show');
+document.getElementById('docopy').onclick=()=>{navigator.clipboard.writeText(buildResumo()).then(()=>{document.getElementById('docopy').textContent='Copiado! ✓';setTimeout(()=>document.getElementById('docopy').textContent='Copiar resumo',1800);});};
+document.getElementById('sendwpp').onclick=()=>{window.open('https://wa.me/?text='+encodeURIComponent(buildResumo()),'_blank');};
+upd();
+</script>
+</body>
+</html>
